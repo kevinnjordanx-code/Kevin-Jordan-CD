@@ -219,7 +219,6 @@
     /* ── Section shared ── */
     section { padding: 7rem 3rem; }
     .section-label {
-    .section-label {
       font-family: 'Inter', sans-serif;
       font-size: .58rem;
       font-weight: 500;
@@ -349,19 +348,69 @@
       padding-bottom: .3rem;
     }
 
-    /* ── Video grid ── */
-    .video-grid {
+    /* ── Campaign Groups ── */
+    .campaigns-wrap {
       max-width: 1200px; margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 1.5px;
+      display: flex; flex-direction: column; gap: 5rem;
     }
+
+    .campaign-group {}
+
+    .campaign-header {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .campaign-client {
+      font-family: 'Inter', sans-serif;
+      font-size: .58rem; font-weight: 500;
+      letter-spacing: .28em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: .5rem;
+    }
+    .campaign-name {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+      font-weight: 800; letter-spacing: -.02em;
+      text-transform: uppercase; color: var(--white);
+      line-height: 1.05; margin-bottom: 1rem;
+    }
+    .campaign-blurb {
+      font-family: 'Inter', sans-serif;
+      font-size: .9rem; font-weight: 300;
+      line-height: 1.85; color: var(--muted);
+      letter-spacing: .01em;
+      max-width: 72ch;
+    }
+
+    /* Horizontal scroll track */
+    .campaign-scroll {
+      overflow-x: auto; overflow-y: visible;
+      padding-bottom: 1rem;
+      cursor: grab;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: var(--line) transparent;
+      margin: 0 -3rem;
+      padding-left: 3rem;
+    }
+    .campaign-scroll:active { cursor: grabbing; }
+    .campaign-scroll::-webkit-scrollbar { height: 2px; }
+    .campaign-scroll::-webkit-scrollbar-track { background: transparent; }
+    .campaign-scroll::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
+
+    .campaign-track {
+      display: flex; gap: 3px;
+      width: max-content;
+      padding-right: 3rem;
+    }
+
     .video-card {
       background: var(--bg3);
       border: 1px solid var(--line);
       overflow: hidden;
       position: relative;
-      group: true;
+      flex-shrink: 0;
+      width: 480px;
       transition: border-color .3s;
     }
     .video-card:hover { border-color: rgba(200,169,110,.35); }
@@ -384,7 +433,7 @@
 
     .card-overlay {
       position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(8,8,8,.85) 0%, transparent 55%);
+      background: linear-gradient(to top, rgba(8,8,8,.9) 0%, transparent 50%);
       opacity: 0;
       transition: opacity .35s ease;
       pointer-events: none;
@@ -409,7 +458,29 @@
       color: var(--white); line-height: 1.3;
     }
 
-    .loading-state {
+    .image-card {
+      background: var(--bg3);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+      width: 480px;
+      transition: border-color .3s;
+    }
+    .image-card:hover { border-color: rgba(200,169,110,.35); }
+    .image-card img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(15%);
+      transition: filter .4s ease, transform .4s ease;
+    }
+    .image-card:hover img { filter: grayscale(0%); transform: scale(1.02); }
+    .image-card .card-overlay { opacity: 0; transition: opacity .35s ease; }
+    .image-card:hover .card-overlay { opacity: 1; }
+    .image-card .card-meta { opacity: 0; transform: translateY(6px); transition: transform .3s ease, opacity .3s ease; }
+    .image-card:hover .card-meta { opacity: 1; transform: translateY(0); }
       max-width: 1200px; margin: 0 auto;
       padding: 4rem 0;
       display: flex; flex-direction: column;
@@ -431,6 +502,15 @@
       max-width: 1200px; margin: 0 auto;
       padding: 3rem 0; color: var(--muted);
       font-size: .85rem;
+    }
+
+    @media (max-width: 900px) {
+      .campaign-header { grid-template-columns: 1fr; gap: 1.2rem; }
+      .video-card { width: 80vw; }
+      .campaign-track { padding: 0 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .video-card { width: 88vw; }
     }
 
     /* ── Marquee ── */
@@ -581,10 +661,7 @@
     <div class="about-inner">
       <div class="about-left reveal">
         <div class="about-portrait">
-          <div class="about-portrait-placeholder">
-            <div class="portrait-icon">◎</div>
-            <span>Photo</span>
-          </div>
+          <img src="Kev-Portrait-2.jpg" alt="Kevin Jordan" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;" />
         </div>
         <div class="about-name-block">
           <div class="about-name">Kevin Jordan</div>
@@ -638,17 +715,17 @@
     <div class="work-header reveal">
       <div>
         <div class="section-label" data-index="02">Selected Work</div>
-        <h2 class="work-title">The <em>reel.</em></h2>
+        <h2 class="work-title">THE <em>REEL.</em></h2>
       </div>
-      <span class="work-count" id="video-count">Loading…</span>
+      <span class="work-count" id="video-count"></span>
     </div>
 
     <div id="loading-state" class="loading-state">
       <div class="loading-spinner"></div>
-      <span>Fetching videos from Vimeo</span>
+      <span>Loading campaigns</span>
     </div>
     <div id="error-state" class="error-state" style="display:none;"></div>
-    <div class="video-grid" id="video-grid"></div>
+    <div class="campaigns-wrap" id="campaigns-wrap" style="display:none;"></div>
   </section>
 
   <!-- FOOTER / CONTACT -->
@@ -704,142 +781,166 @@
     // ── Reveal on scroll ──
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: .12 });
+    }, { threshold: .1 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // ── Vimeo showcase loader ──
-    const SHOWCASE_ID = '10379294';
-
-    // Titles to label cards if API doesn't return names
-    // We'll use Vimeo oEmbed per video for thumbnails and titles
-    async function fetchShowcase() {
-      const grid    = document.getElementById('video-grid');
-      const loading = document.getElementById('loading-state');
-      const errEl   = document.getElementById('error-state');
-      const countEl = document.getElementById('video-count');
-
-      try {
-        // Fetch the showcase page to scrape video IDs via oembed endpoint
-        // We use Vimeo's public oembed API for each video
-        // First get video list via Vimeo's unofficial JSON approach
-        const apiUrl = `https://vimeo.com/api/v2/album/${SHOWCASE_ID}/videos.json`;
-        let videos = [];
-        try {
-          const res = await fetch(apiUrl);
-          if (res.ok) {
-            const data = await res.json();
-            videos = data;
-          }
-        } catch (_) {}
-
-        if (!videos.length) {
-          // Fallback: use known video IDs from the showcase (pre-fetched)
-          videos = [
-            { id: '849785064', title: 'Project 01' },
-            { id: '826503211', title: 'Project 02' },
-            { id: '800000001', title: 'Project 03' },
-          ];
-          // Try oEmbed to get real meta
-          videos = await enrichFromOEmbed(videos);
-        }
-
-        loading.style.display = 'none';
-        countEl.textContent = `${videos.length} Projects`;
-
-        videos.forEach((v, i) => {
-          const id    = v.id || String(v.id);
-          const title = v.title || `Project ${String(i+1).padStart(2,'0')}`;
-          const thumb = v.thumbnail_large || v.thumbnail_medium || '';
-
-          const card = document.createElement('div');
-          card.className = 'video-card reveal';
-
-          card.innerHTML = `
-            <div class="video-wrapper">
-              <iframe
-                src="https://player.vimeo.com/video/${id}?autoplay=0&muted=1&loop=0&byline=0&portrait=0&title=0&color=c8a96e"
-                allow="autoplay; fullscreen; picture-in-picture"
-                allowfullscreen
-                loading="lazy"
-                title="${title.replace(/"/g,'&quot;')}">
-              </iframe>
-            </div>
-            <div class="card-overlay"></div>
-            <div class="card-meta">
-              <div class="card-project-label">Project ${String(i+1).padStart(2,'0')}</div>
-              <div class="card-title">${title}</div>
-            </div>
-          `;
-
-          grid.appendChild(card);
-          setTimeout(() => observer.observe(card), 50);
-        });
-
-      } catch (err) {
-        loading.style.display = 'none';
-        errEl.style.display = 'block';
-        errEl.innerHTML = `<p style="color:var(--muted);font-family:'DM Mono',monospace;font-size:.75rem;">
-          Could not load videos. Please ensure the Vimeo showcase is public and accessible.<br/>
-          <a href="https://vimeo.com/showcase/${SHOWCASE_ID}" target="_blank" style="color:var(--accent);">View on Vimeo →</a>
-        </p>`;
-      }
+    // ── Drag-to-scroll ──
+    function enableDragScroll(el) {
+      let isDown = false, startX, scrollLeft;
+      el.addEventListener('mousedown', e => {
+        isDown = true; startX = e.pageX - el.offsetLeft; scrollLeft = el.scrollLeft;
+        el.style.cursor = 'grabbing';
+      });
+      el.addEventListener('mouseleave', () => { isDown = false; el.style.cursor = 'grab'; });
+      el.addEventListener('mouseup',    () => { isDown = false; el.style.cursor = 'grab'; });
+      el.addEventListener('mousemove',  e => {
+        if (!isDown) return;
+        e.preventDefault();
+        el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX);
+      });
     }
 
-    async function enrichFromOEmbed(videos) {
-      return Promise.all(videos.map(async v => {
-        try {
-          const url = `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${v.id}`;
-          const res = await fetch(url);
-          if (res.ok) {
-            const d = await res.json();
-            return { ...v, title: d.title || v.title, thumbnail_large: d.thumbnail_url };
-          }
-        } catch (_) {}
-        return v;
-      }));
-    }
+    // ── Campaign data — replace video IDs with your actual Vimeo IDs ──
+    // Each group = one campaign. Videos listed in order they should appear.
+    const CAMPAIGNS = [
+      {
+        client:  'Dos Equis',
+        name:    'Most Interesting Man in the World',
+        blurb:   'One of the most awarded advertising campaigns in history, that redefined a category, surged sales, and won almost every award. A cultural phenomenon built on a single, unforgettable character — and the insight that beer drinkers wanted to feel interesting, not just refreshed.',
+        videos:  [
+          { id: '76979871',   title: 'Dos Equis — Cliff Diving' },
+          { id: '169599296',  title: 'Dos Equis — Ice Fishing' },
+          { id: '137857207',  title: 'Dos Equis — Pommel Horse' },
+          { id: '364370799',  title: 'Dos Equis — :15\'s' },
+        ]
+      },
+      {
+        client:  'VH1',
+        name:    "Martha & Snoop's Potluck Dinner Party",
+        blurb:   "The marketing idea was to capture the strange magic of Martha & Snoop's Potluck Dinner Party: two cultural opposites at one table, turning food, friendship, and celebrity chaos into something completely original. The campaign leaned into the absurdity — and audiences couldn't look away.",
+        videos:  [
+          { id: '22439234',   title: 'Martha & Snoop — Ghost' },
+          { id: '115783408',  title: 'Martha & Snoop — In the Mix' },
+          { id: '189919038',  title: 'Martha & Snoop — Rollin\'' },
+          { id: '320001176',  title: 'Martha & Snoop — Manners' },
+        ]
+      },
+      {
+        client:  'VH1',
+        name:    'Brand Videos',
+        blurb:   'A body of brand work spanning the full VH1 universe — from network anthems to show-specific campaigns. Each piece was built to capture the distinct energy of VH1\'s programming: music, culture, personality, and the kind of unscripted chaos that keeps audiences coming back.',
+        videos:  [
+          { id: '76979871',   title: 'VH1 Anthem' },
+          { id: '169599296',  title: 'The Breaks — The Battle' },
+          { id: '137857207',  title: 'ANTM Tyra' },
+          { id: '22439234',   title: 'LHH NY — Image' },
+          { id: '115783408',  title: 'LHH Atlanta — Bite' },
+        ]
+      },
+      {
+        client:  'Google',
+        name:    'Brand Campaign',
+        blurb:   'Integrated creative work across digital, social, and experiential — built around the idea that the best technology is invisible, enabling human connection rather than replacing it.',
+        videos:  [
+          { id: '364370799',  title: 'Google — Brand Film' },
+          { id: '320001176',  title: 'Digital Campaign' },
+        ]
+      },
+      {
+        client:  'FDA',
+        name:    'Anti Smoking for Teens',
+        blurb:   'A campaign built to reach teenagers where they actually live — not with fear tactics, but with truth. The creative challenged the industry\'s manipulation of young people, giving teens the one thing that actually resonates: the feeling that they\'re in control, not the tobacco companies.',
+        videos:  [
+          { id: '22439234',   title: 'FDA — Contract' },
+          { id: '115783408',  title: 'FDA — Smoke Army' },
+        ]
+      },
+      {
+        client:  'GE',
+        name:    'Brand Campaigns',
+        blurb:   'Brand work for one of the most storied companies in American history — finding the human side of industrial innovation. The challenge was making complex technology feel relevant, urgent, and inspiring to a broad audience without losing the weight of what GE actually does.',
+        videos:  [
+          { id: '364370799',  title: 'Journey' },
+          { id: '320001176',  title: 'GE — Agent of Good' },
+          { id: '76979871',   title: 'KITT / Norfolk Southern' },
+          { id: '169599296',  title: 'GE Works Olympic Commercial' },
+        ]
+      },
+      {
+        client:  'Jeep',
+        name:    'Commercials',
+        blurb:   'Jeep doesn\'t sell cars — it sells freedom. The work tapped into something primal: the open road, the untamed landscape, the version of yourself that exists just beyond the pavement. Spots built for people who already know what Jeep means, and want to see it reflected back at them.',
+        videos:  [
+          { id: '137857207',  title: 'Jeep Opera' },
+          { id: '22439234',   title: '002 Beach' },
+          { id: '115783408',  title: '001 Ballet' },
+          { id: '189919038',  title: 'Jeep City Safari' },
+        ],
+        images: [
+          { src: 'jeep1.jpg', title: 'Jeep Grand Cherokee — Everyday is an Adventure' },
+          { src: 'jeep2.jpg', title: 'Jeep Grand Cherokee — The New, More Grand Cherokee' },
+        ]
+      },
+    ];
 
-    // ── Main showcase fetch using Vimeo v2 API ──
+    // ── Try to pull live videos from Vimeo v2 API, else use CAMPAIGNS data ──
     (async () => {
-      const grid    = document.getElementById('video-grid');
-      const loading = document.getElementById('loading-state');
-      const errEl   = document.getElementById('error-state');
-      const countEl = document.getElementById('video-count');
+      const loading   = document.getElementById('loading-state');
+      const errEl     = document.getElementById('error-state');
+      const wrap      = document.getElementById('campaigns-wrap');
+      const countEl   = document.getElementById('video-count');
+      const SHOWCASE_ID = '10379294';
 
-      let videos = [];
-
-      // Try Vimeo v2 album API (public, no auth needed for public showcases)
+      // Attempt live fetch
+      let liveVideos = [];
       try {
-        const res  = await fetch(`https://vimeo.com/api/v2/album/${SHOWCASE_ID}/videos.json`);
-        if (res.ok) { videos = await res.json(); }
+        const res = await fetch(`https://vimeo.com/api/v2/album/${SHOWCASE_ID}/videos.json`);
+        if (res.ok) liveVideos = await res.json();
       } catch (_) {}
 
       loading.style.display = 'none';
+      wrap.style.display = 'flex';
 
-      if (!videos.length) {
-        errEl.style.display = 'block';
-        errEl.innerHTML = `
-          <p style="font-family:'DM Mono',monospace;font-size:.78rem;color:var(--muted);line-height:1.8;">
-            The Vimeo showcase could not be loaded automatically (Vimeo's public API requires the showcase to be public and the v2 endpoint may be rate-limited).<br/><br/>
-            To embed your videos, replace the placeholder IDs in the code with your actual Vimeo video IDs — or open the showcase link below to find them.<br/><br/>
-            <a href="https://vimeo.com/showcase/${SHOWCASE_ID}" target="_blank" style="color:var(--accent);border-bottom:1px solid rgba(200,169,110,.3);padding-bottom:2px;">
-              ↗ Open Vimeo Showcase
-            </a>
-          </p>`;
-        countEl.textContent = '—';
+      // If live videos loaded, distribute them evenly across campaign groups
+      if (liveVideos.length) {
+        const perGroup = Math.ceil(liveVideos.length / CAMPAIGNS.length);
+        CAMPAIGNS.forEach((c, gi) => {
+          c.videos = liveVideos.slice(gi * perGroup, gi * perGroup + perGroup).map(v => ({
+            id: String(v.id), title: v.title || `Video ${v.id}`
+          }));
+        });
+        countEl.textContent = `${liveVideos.length} Videos`;
+      } else {
+        const total = CAMPAIGNS.reduce((s, c) => s + c.videos.length, 0);
+        countEl.textContent = `${total} Projects`;
+      }
 
-        // Render demo cards with placeholder IDs so the layout is visible
-        const demo = [
-          { id: '76979871', title: 'The Reel — Sample 01' },
-          { id: '169599296', title: 'Brand Film — Sample 02' },
-          { id: '137857207', title: 'Campaign — Sample 03' },
-          { id: '22439234',  title: 'TV Spot — Sample 04' },
-          { id: '115783408', title: 'Digital — Sample 05' },
-          { id: '189919038', title: 'Social — Sample 06' },
-        ];
-        demo.forEach((v, i) => {
+      CAMPAIGNS.forEach((campaign, ci) => {
+        if (!campaign.videos.length) return;
+
+        const group = document.createElement('div');
+        group.className = 'campaign-group reveal';
+
+        group.innerHTML = `
+          <div class="campaign-header">
+            <div class="campaign-client">${campaign.client}</div>
+            <h3 class="campaign-name">${campaign.name}</h3>
+            <p class="campaign-blurb">${campaign.blurb}</p>
+          </div>
+          <div class="campaign-scroll" id="scroll-${ci}">
+            <div class="campaign-track" id="track-${ci}"></div>
+          </div>
+        `;
+
+        wrap.appendChild(group);
+        observer.observe(group);
+
+        const track = group.querySelector(`#track-${ci}`);
+
+        // Render video cards
+        campaign.videos.forEach((v) => {
           const card = document.createElement('div');
-          card.className = 'video-card reveal';
+          card.className = 'video-card';
           card.innerHTML = `
             <div class="video-wrapper">
               <iframe
@@ -847,45 +948,36 @@
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowfullscreen
                 loading="lazy"
-                title="${v.title}">
+                title="${v.title.replace(/"/g, '&quot;')}">
               </iframe>
             </div>
             <div class="card-overlay"></div>
             <div class="card-meta">
-              <div class="card-project-label">Demo ${String(i+1).padStart(2,'0')}</div>
+              <div class="card-project-label">${campaign.client}</div>
               <div class="card-title">${v.title}</div>
             </div>`;
-          grid.appendChild(card);
-          setTimeout(() => observer.observe(card), 50 * i);
+          track.appendChild(card);
         });
-        return;
-      }
 
-      countEl.textContent = `${videos.length} Projects`;
+        // Render image cards (if any)
+        if (campaign.images) {
+          campaign.images.forEach((img) => {
+            const card = document.createElement('div');
+            card.className = 'image-card';
+            card.innerHTML = `
+              <img src="${img.src}" alt="${img.title}" loading="lazy" />
+              <div class="card-overlay"></div>
+              <div class="card-meta">
+                <div class="card-project-label">${campaign.client}</div>
+                <div class="card-title">${img.title}</div>
+              </div>`;
+            track.appendChild(card);
+          });
+        }
 
-      videos.forEach((v, i) => {
-        const id    = String(v.id);
-        const title = v.title || `Project ${String(i+1).padStart(2,'0')}`;
-
-        const card = document.createElement('div');
-        card.className = 'video-card reveal';
-        card.innerHTML = `
-          <div class="video-wrapper">
-            <iframe
-              src="https://player.vimeo.com/video/${id}?autoplay=0&muted=1&loop=0&byline=0&portrait=0&title=0&color=c8a96e"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowfullscreen
-              loading="lazy"
-              title="${title.replace(/"/g,'&quot;')}">
-            </iframe>
-          </div>
-          <div class="card-overlay"></div>
-          <div class="card-meta">
-            <div class="card-project-label">Project ${String(i+1).padStart(2,'0')}</div>
-            <div class="card-title">${title}</div>
-          </div>`;
-        grid.appendChild(card);
-        setTimeout(() => observer.observe(card), 60 * i);
+        // Enable drag scroll on this row
+        const scrollEl = group.querySelector(`#scroll-${ci}`);
+        enableDragScroll(scrollEl);
       });
     })();
   </script>
