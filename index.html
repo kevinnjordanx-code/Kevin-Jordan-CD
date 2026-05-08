@@ -658,16 +658,7 @@
 
   <!-- ABOUT -->
   <section class="about" id="about">
-    <div class="about-inner">
-      <div class="about-left reveal">
-        <div class="about-portrait">
-          <img src="kev-portrait.jpg" alt="Kevin Jordan" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;" />
-        </div>
-        <div class="about-name-block">
-          <div class="about-name">Kevin Jordan</div>
-          <div class="about-title-tag">Creative Director &amp; Art Director</div>
-        </div>
-      </div>
+    <div class="about-inner" style="grid-template-columns:1fr;max-width:780px;">
       <div class="about-right">
         <div class="section-label" data-index="01">About</div>
         <h2 class="reveal">Culturally relevant work that <em>connects</em> and drives results.</h2>
@@ -800,18 +791,16 @@
       });
     }
 
-    // ── Campaign data — replace video IDs with your actual Vimeo IDs ──
-    // Each group = one campaign. Videos listed in order they should appear.
     const CAMPAIGNS = [
       {
         client:  'Dos Equis',
         name:    'Most Interesting Man in the World',
         blurb:   'One of the most awarded advertising campaigns in history, that redefined a category, surged sales, and won almost every award. A cultural phenomenon built on a single, unforgettable character — and the insight that beer drinkers wanted to feel interesting, not just refreshed.',
         videos:  [
-          { id: '76979871',   title: 'Dos Equis — Cliff Diving' },
-          { id: '169599296',  title: 'Dos Equis — Ice Fishing' },
-          { id: '137857207',  title: 'Dos Equis — Pommel Horse' },
-          { id: '364370799',  title: 'Dos Equis — :15\'s' },
+          { id: '14568158',  title: 'Dos Equis — Cliff Diving' },
+          { id: '14568217',  title: 'Dos Equis — Ice Fishing' },
+          { id: '47131846',  title: 'Dos Equis — Pommel Horse' },
+          { id: '14784103',  title: "Dos Equis — :15's" },
         ]
       },
       {
@@ -819,40 +808,22 @@
         name:    "Martha & Snoop's Potluck Dinner Party",
         blurb:   "The marketing idea was to capture the strange magic of Martha & Snoop's Potluck Dinner Party: two cultural opposites at one table, turning food, friendship, and celebrity chaos into something completely original. The campaign leaned into the absurdity — and audiences couldn't look away.",
         videos:  [
-          { id: '22439234',   title: 'Martha & Snoop — Ghost' },
-          { id: '115783408',  title: 'Martha & Snoop — In the Mix' },
-          { id: '189919038',  title: 'Martha & Snoop — Rollin\'' },
-          { id: '320001176',  title: 'Martha & Snoop — Manners' },
+          { id: '245856973',  title: 'Martha & Snoop — Ghost' },
+          { id: '222043251',  title: 'Martha & Snoop — In the Mix' },
+          { id: '222043285',  title: "Martha & Snoop — Rollin'" },
+          { id: '222042244',  title: 'Martha & Snoop — Manners' },
         ]
       },
       {
         client:  'VH1',
         name:    'Brand Videos',
-        blurb:   'A body of brand work spanning the full VH1 universe — from network anthems to show-specific campaigns. Each piece was built to capture the distinct energy of VH1\'s programming: music, culture, personality, and the kind of unscripted chaos that keeps audiences coming back.',
+        blurb:   "A body of brand work spanning the full VH1 universe — from network anthems to show-specific campaigns. Each piece was built to capture the distinct energy of VH1's programming: music, culture, personality, and the kind of unscripted chaos that keeps audiences coming back.",
         videos:  [
-          { id: '76979871',   title: 'VH1 Anthem' },
-          { id: '169599296',  title: 'The Breaks — The Battle' },
-          { id: '137857207',  title: 'ANTM Tyra' },
-          { id: '22439234',   title: 'LHH NY — Image' },
-          { id: '115783408',  title: 'LHH Atlanta — Bite' },
-        ]
-      },
-      {
-        client:  'Google',
-        name:    'Brand Campaign',
-        blurb:   'Integrated creative work across digital, social, and experiential — built around the idea that the best technology is invisible, enabling human connection rather than replacing it.',
-        videos:  [
-          { id: '364370799',  title: 'Google — Brand Film' },
-          { id: '320001176',  title: 'Digital Campaign' },
-        ]
-      },
-      {
-        client:  'FDA',
-        name:    'Anti Smoking for Teens',
-        blurb:   'A campaign built to reach teenagers where they actually live — not with fear tactics, but with truth. The creative challenged the industry\'s manipulation of young people, giving teens the one thing that actually resonates: the feeling that they\'re in control, not the tobacco companies.',
-        videos:  [
-          { id: '22439234',   title: 'FDA — Contract' },
-          { id: '115783408',  title: 'FDA — Smoke Army' },
+          { id: '277545839',  title: 'VH1 Anthem' },
+          { id: '222045591',  title: 'The Breaks — The Battle' },
+          { id: '246881359',  title: 'ANTM — Tyra' },
+          { id: '245854870',  title: 'LHH Miami — Music Video / Image' },
+          { id: '245853807',  title: 'LHH NY — Image' },
         ]
       },
       {
@@ -860,25 +831,42 @@
         name:    'Brand Campaigns',
         blurb:   'Brand work for one of the most storied companies in American history — finding the human side of industrial innovation. The challenge was making complex technology feel relevant, urgent, and inspiring to a broad audience without losing the weight of what GE actually does.',
         videos:  [
-          { id: '364370799',  title: 'Journey' },
-          { id: '320001176',  title: 'GE — Agent of Good' },
-          { id: '76979871',   title: 'KITT / Norfolk Southern' },
-          { id: '169599296',  title: 'GE Works Olympic Commercial' },
+          { id: '56481649',  title: 'Journey' },
+          { id: '64203675',  title: 'GE — Agent of Good' },
+          { id: '56481650',  title: 'KITT / Norfolk Southern' },
+          { id: '47131844',  title: 'GE Works Olympic Commercial' },
+        ]
+      },
+      {
+        client:  'FDA',
+        name:    'Anti Smoking for Teens',
+        blurb:   "A campaign built to reach teenagers where they actually live — not with fear tactics, but with truth. The creative challenged the industry's manipulation of young people, giving teens the one thing that actually resonates: the feeling that they're in control, not the tobacco companies.",
+        videos:  [
+          { id: '112647132',  title: 'FDA — Contract' },
+          { id: '112647131',  title: 'FDA — Smoke Army' },
         ]
       },
       {
         client:  'Jeep',
         name:    'Commercials',
-        blurb:   'Jeep doesn\'t sell cars — it sells freedom. The work tapped into something primal: the open road, the untamed landscape, the version of yourself that exists just beyond the pavement. Spots built for people who already know what Jeep means, and want to see it reflected back at them.',
+        blurb:   "Jeep doesn't sell cars — it sells freedom. The work tapped into something primal: the open road, the untamed landscape, the version of yourself that exists just beyond the pavement. Spots built for people who already know what Jeep means, and want to see it reflected back at them.",
         videos:  [
-          { id: '137857207',  title: 'Jeep Opera' },
-          { id: '22439234',   title: '002 Beach' },
-          { id: '115783408',  title: '001 Ballet' },
-          { id: '189919038',  title: 'Jeep City Safari' },
+          { id: '14740511',  title: 'Jeep Opera' },
+          { id: '14716983',  title: 'Jeep City Safari' },
         ],
         images: [
           { src: 'jeep1.jpg', title: 'Jeep Grand Cherokee — Everyday is an Adventure' },
           { src: 'jeep2.jpg', title: 'Jeep Grand Cherokee — The New, More Grand Cherokee' },
+        ]
+      },
+      {
+        client:  'LensCrafters',
+        name:    'Commercials',
+        blurb:   'Work built around a simple but powerful idea: the moment you see clearly changes everything. Spots that found the emotion in a functional product — making eyewear feel cinematic, personal, and relevant across audiences.',
+        videos:  [
+          { id: '14628309',  title: '001 Ballet' },
+          { id: '14628397',  title: '002 Beach' },
+          { id: '14628478',  title: '004 BBall' },
         ]
       },
     ];
