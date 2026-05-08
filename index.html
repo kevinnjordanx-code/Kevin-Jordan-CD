@@ -661,7 +661,7 @@
     <div class="about-inner">
       <div class="about-left reveal">
         <div class="about-portrait">
-          <img src="Kev-Portrait-2.jpg" alt="Kevin Jordan" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;" />
+          <img src="kev-portrait.jpg" alt="Kevin Jordan" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;" />
         </div>
         <div class="about-name-block">
           <div class="about-name">Kevin Jordan</div>
@@ -883,37 +883,17 @@
       },
     ];
 
-    // ── Try to pull live videos from Vimeo v2 API, else use CAMPAIGNS data ──
+    // ── Render campaigns from defined data only ──
     (async () => {
-      const loading   = document.getElementById('loading-state');
-      const errEl     = document.getElementById('error-state');
-      const wrap      = document.getElementById('campaigns-wrap');
-      const countEl   = document.getElementById('video-count');
-      const SHOWCASE_ID = '10379294';
-
-      // Attempt live fetch
-      let liveVideos = [];
-      try {
-        const res = await fetch(`https://vimeo.com/api/v2/album/${SHOWCASE_ID}/videos.json`);
-        if (res.ok) liveVideos = await res.json();
-      } catch (_) {}
+      const loading = document.getElementById('loading-state');
+      const wrap    = document.getElementById('campaigns-wrap');
+      const countEl = document.getElementById('video-count');
 
       loading.style.display = 'none';
       wrap.style.display = 'flex';
 
-      // If live videos loaded, distribute them evenly across campaign groups
-      if (liveVideos.length) {
-        const perGroup = Math.ceil(liveVideos.length / CAMPAIGNS.length);
-        CAMPAIGNS.forEach((c, gi) => {
-          c.videos = liveVideos.slice(gi * perGroup, gi * perGroup + perGroup).map(v => ({
-            id: String(v.id), title: v.title || `Video ${v.id}`
-          }));
-        });
-        countEl.textContent = `${liveVideos.length} Videos`;
-      } else {
-        const total = CAMPAIGNS.reduce((s, c) => s + c.videos.length, 0);
-        countEl.textContent = `${total} Projects`;
-      }
+      const total = CAMPAIGNS.reduce((s, c) => s + c.videos.length + (c.images ? c.images.length : 0), 0);
+      countEl.textContent = `${total} Projects`;
 
       CAMPAIGNS.forEach((campaign, ci) => {
         if (!campaign.videos.length) return;
