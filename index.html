@@ -481,6 +481,14 @@
     .image-card:hover .card-overlay { opacity: 1; }
     .image-card .card-meta { opacity: 0; transform: translateY(6px); transition: transform .3s ease, opacity .3s ease; }
     .image-card:hover .card-meta { opacity: 1; transform: translateY(0); }
+
+    /* Poster / print cards: fixed row height, natural width, no cropping */
+    .image-card.poster { width: auto; background: transparent; }
+    .image-card.poster img {
+      height: 440px; width: auto; max-width: none;
+      aspect-ratio: auto; object-fit: contain;
+    }
+    @media (max-width: 600px) { .image-card.poster img { height: 340px; } }
       max-width: 1200px; margin: 0 auto;
       padding: 4rem 0;
       display: flex; flex-direction: column;
@@ -793,6 +801,24 @@
 
     const CAMPAIGNS = [
       {
+        client:  'Netflix',
+        name:    'A Different World',
+        blurb:   'The exciting challenge was, how do you create a campaign that appeals to hardcore legacy fandom while also introducing this iconic series to a whole new generation?',
+        videos:  [
+          // Add Vimeo videos here, e.g. { id: '123456789', title: 'Video Title' },
+        ],
+        poster: true,
+        images: [
+          { src: 'netflix-teaser.jpg',          title: 'Welcome Back to Hillman — Teaser' },
+          { src: 'netflix-deborah.jpg',         title: 'A Different World — Deborah' },
+          { src: 'netflix-deborah-collage.jpg', title: 'Color Outside the Lines — Deborah' },
+          { src: 'netflix-rashida-collage.jpg', title: 'Earned, Not Given — Rashida' },
+          { src: 'netflix-ensemble-wall.jpg',   title: 'A Different World — The Ensemble' },
+          { src: 'netflix-ensemble-wide.jpg',   title: 'A Different World — Ensemble Banner' },
+          { src: 'netflix-billboard.jpg',       title: 'A Different World — Sunset Strip Billboard' },
+        ]
+      },
+      {
         client:  'Dos Equis',
         name:    'Most Interesting Man in the World',
         blurb:   'One of the most awarded advertising campaigns in history, that redefined a category, surged sales, and won almost every award. A cultural phenomenon built on a single, unforgettable character — and the insight that beer drinkers wanted to feel interesting, not just refreshed.',
@@ -884,7 +910,7 @@
       countEl.textContent = `${total} Projects`;
 
       CAMPAIGNS.forEach((campaign, ci) => {
-        if (!campaign.videos.length) return;
+        if (!campaign.videos.length && !(campaign.images && campaign.images.length)) return;
 
         const group = document.createElement('div');
         group.className = 'campaign-group reveal';
@@ -931,7 +957,7 @@
         if (campaign.images) {
           campaign.images.forEach((img) => {
             const card = document.createElement('div');
-            card.className = 'image-card';
+            card.className = 'image-card' + (campaign.poster ? ' poster' : '');
             card.innerHTML = `
               <img src="${img.src}" alt="${img.title}" loading="lazy" />
               <div class="card-overlay"></div>
